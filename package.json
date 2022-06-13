@@ -6,9 +6,6 @@
     "source": "index.js",
     "type": "module",
     "module": "dist/module.js",
-    "files": [
-        "dist/module.js"
-    ],
     "sideEffects": false,
     "scripts": {
         "watch": "parcel watch",
