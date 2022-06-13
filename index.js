@@ -1,5 +1,7 @@
 export default class Events {
-    listeners = {};
+    constructor(listeners = {}) {
+        this.listeners = listeners;
+    }
 
     hasListeners(event) {
         return event in this.listeners;
