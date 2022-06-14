@@ -38,25 +38,8 @@ test('Can unsubscribe all listeners', (t) => {
     });
 
     eventManager.removeAll('test');
+
     eventManager.emit('test', 'foo');
 
     t.is(eventInput, null);
-});
-
-test('Can listen to multiple events', (t) => {
-    const eventManager = new Events();
-    const cb = {};
-    let cbCalled = 0;
-
-    eventManager.on(['foo', 'bar'], (input, event) => {
-        cb[event] = input;
-        cbCalled += 1;
-    });
-
-    eventManager.emit('foo', 1);
-    eventManager.emit('bar', 2);
-
-    t.is(cbCalled, 2);
-    t.is(cb.foo, 1);
-    t.is(cb.bar, 2);
 });

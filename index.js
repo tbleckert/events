@@ -7,7 +7,7 @@ export default class Events {
         return event in this.listeners;
     }
 
-    addListener(event, cb) {
+    on(event, cb) {
         if (!(event in this.listeners)) {
             this.listeners[event] = [];
         }
@@ -15,9 +15,13 @@ export default class Events {
         if (!this.listeners[event].includes(cb)) {
             this.listeners[event].push(cb);
         }
+
+        return {
+            unsubscribe: () => this.off(event, cb),
+        };
     }
 
-    removeListener(event, cb) {
+    off(event, cb) {
         if (!this.hasListeners(event)) {
             return;
         }
@@ -25,26 +29,6 @@ export default class Events {
         this.listeners[event] = this.listeners[event].filter(
             (subCb) => subCb !== cb,
         );
-    }
-
-    on(events, cb) {
-        if (Array.isArray(events)) {
-            events.forEach((event) => this.addListener(event, cb));
-        } else {
-            this.addListener(events, cb);
-        }
-
-        return {
-            unsubscribe: () => this.off(events, cb),
-        };
-    }
-
-    off(events, cb) {
-        if (Array.isArray(events)) {
-            events.forEach((event) => this.removeListener(event, cb));
-        }
-
-        this.removeListener(events, cb);
     }
 
     removeAll(event) {
@@ -57,7 +41,7 @@ export default class Events {
         }
 
         this.listeners[event].forEach(function (cb) {
-            cb.call(null, ...args, event);
+            cb.call(null, ...args);
         });
     }
 }
